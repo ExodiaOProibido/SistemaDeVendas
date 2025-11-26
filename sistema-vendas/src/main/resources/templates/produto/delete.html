@@ -5,17 +5,23 @@
     <title>Excluir Produto</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
+
 <body>
-<div class="container mt-4">
-    <h1>Excluir Produto</h1>
+<div class="container mt-5" style="max-width: 700px;">
+
+    <h2 class="mb-4 text-danger">Excluir Produto</h2>
 
     <div class="alert alert-danger">
-        <p>Tem certeza que deseja excluir o produto <strong th:text="${produto.nome}"></strong>?</p>
+        <p class="m-0">
+            Tem certeza que deseja excluir o produto
+            <strong th:text="${produto.nome}"></strong>?
+        </p>
     </div>
 
-    <table class="table table-bordered">
+    <h5 class="mt-4">Informações do Produto</h5>
+    <table class="table table-bordered mt-2">
         <tr>
-            <th>Nome</th>
+            <th style="width: 220px;">Nome</th>
             <td th:text="${produto.nome}"></td>
         </tr>
         <tr>
@@ -29,14 +35,16 @@
         <tr>
             <th>Quantidade em Estoque</th>
             <td th:text="${produto.quantidadeEmEstoque}"></td>
-        </tr>        
+        </tr>
     </table>
 
-    <form th:action="@{/produtos/delete/{id}(id=${produto.id})}" method="post">
+    <form th:action="@{/produtos/delete/{id}(id=${produto.id})}" method="post" class="mt-4">
         <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
         <a th:href="@{/produtos}" class="btn btn-secondary">Cancelar</a>
     </form>
+
 </div>
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

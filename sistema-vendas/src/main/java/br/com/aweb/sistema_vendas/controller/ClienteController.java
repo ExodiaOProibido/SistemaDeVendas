@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,22 +25,28 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    // Apenas usuários autenticados podem ver a lista
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public ModelAndView list() {
         return new ModelAndView("cliente/list", Map.of("clientes", clienteService.listarTodos()));
     }
 
+    // Tela de cadastro
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/novo")
     public ModelAndView create() {
         return new ModelAndView("cliente/form", Map.of("cliente", new Cliente()));
     }
 
+    // Salvar novo cliente
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/novo")
     public String create(@Valid Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
             return "cliente/form";
         }
-        
+
         try {
             clienteService.salvar(cliente);
         } catch (IllegalArgumentException e) {
@@ -47,10 +54,12 @@ public class ClienteController {
             result.rejectValue("cpf", "error.cliente", e.getMessage());
             return "cliente/form";
         }
-        
+
         return "redirect:/clientes";
     }
 
+    // Editar somente ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
         var optionalCliente = clienteService.buscarPorId(id);
@@ -60,6 +69,8 @@ public class ClienteController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    // Salvar edição somente ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit/{id}")
     public String edit(@Valid Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
@@ -77,6 +88,8 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
+    // Tela de confirmação de exclusão apenas ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {
         var optionalCliente = clienteService.buscarPorId(id);
@@ -86,6 +99,8 @@ public class ClienteController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    // Excluir apenas ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public String delete(Cliente cliente) {
         clienteService.excluir(cliente.getId());
