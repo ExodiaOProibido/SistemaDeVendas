@@ -3,8 +3,8 @@ services:
     image: postgres:15
     container_name: postgres_sistema
     environment:
-      POSTGRES_USER: usuario
-      POSTGRES_PASSWORD: senha123
+      POSTGRES_USER: postgres      # ← MUDAR para 'postgres'
+      POSTGRES_PASSWORD: 123456    # ← MUDAR para '123456'
       POSTGRES_DB: sistema_vendas
     ports:
       - "5432:5432"

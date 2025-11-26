@@ -18,28 +18,45 @@ public class DatabaseSeeder {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepo, RoleRepository roleRepo, PasswordEncoder encoder) {
         return args -> {
+            System.out.println("=== INICIANDO DATABASE SEEDER ===");
 
-            // Se não houver roles, cria ADMIN e USER
-            if (roleRepo.count() == 0) {
-                roleRepo.save(new Role(null, "ADMIN"));
-                roleRepo.save(new Role(null, "USER"));
+            // Criar role ADMIN se não existir
+            Role adminRole = roleRepo.findByNome(Role.RoleName.ADMIN)
+                .orElseGet(() -> {
+                    System.out.println("Criando role ADMIN...");
+                    Role role = new Role();
+                    role.setNome(Role.RoleName.ADMIN);
+                    return roleRepo.save(role);
+                });
+
+            // Criar role USER se não existir (mas não usar a variável)
+            roleRepo.findByNome(Role.RoleName.USER)
+                .orElseGet(() -> {
+                    System.out.println("Criando role USER...");
+                    Role role = new Role();
+                    role.setNome(Role.RoleName.USER);
+                    return roleRepo.save(role);
+                });
+
+            // Criar usuário admin se não existir
+            if (userRepo.findByUsername("admin").isEmpty()) {
+                System.out.println("Criando usuário admin...");
+                
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword(encoder.encode("admin123")); 
+                admin.setRoles(Set.of(adminRole));
+                
+                User savedUser = userRepo.save(admin);
+                System.out.println("✅ Usuário admin criado com sucesso!");
+                System.out.println("   Username: " + savedUser.getUsername());
+                System.out.println("   Password: admin123 (codificada)");
+                System.out.println("   Roles: " + savedUser.getRoles().size());
+            } else {
+                System.out.println("✅ Usuário admin já existe");
             }
 
-            // Cria o usuário admin apenas se não existir nenhum usuário
-            if (userRepo.count() == 0) {
-
-                // findByNome retorna Optional<Role>, então usamos orElseThrow
-                Role adminRole = roleRepo.findByNome("ADMIN")
-                        .orElseThrow(() -> new RuntimeException("Role ADMIN não encontrado"));
-
-                User user = new User(
-                    "admin",
-                    encoder.encode("admin123"),
-                    Set.of(adminRole)
-                );
-
-                userRepo.save(user);
-            }
+            System.out.println("=== DATABASE SEEDER FINALIZADO ===");
         };
     }
 }

@@ -1,11 +1,11 @@
 package br.com.aweb.sistema_vendas.repository;
 
+import br.com.aweb.sistema_vendas.model.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import br.com.aweb.sistema_vendas.model.Role;
-
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Optional<Role> findByNome(String nome);
+    
+    // DEVE SER ASSIM - RECEBENDO O ENUM
+    Optional<Role> findByNome(Role.RoleName nome);
 }
