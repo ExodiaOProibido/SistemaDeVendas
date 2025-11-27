@@ -25,21 +25,18 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    // Listar produtos
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public ModelAndView list() {
         return new ModelAndView("produto/list", Map.of("produtos", produtoService.listarTodos()));
     }
 
-    // Formulário de cadastro
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/novo")
     public ModelAndView create() {
         return new ModelAndView("produto/form", Map.of("produto", new Produto()));
     }
 
-    // Salvar produto
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/novo")
     public String create(@Valid Produto produto, BindingResult result) {
@@ -50,7 +47,6 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
-    // Formulário de edição — somente ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
@@ -61,7 +57,6 @@ public class ProdutoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Atualizar produto — somente ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit/{id}")
     public String edit(@Valid Produto produto, BindingResult result) {
@@ -73,7 +68,6 @@ public class ProdutoController {
         return "redirect:/produtos";
     }
 
-    // Excluir produto — somente ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {

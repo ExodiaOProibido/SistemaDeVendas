@@ -6,6 +6,5 @@ import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
     
-    // DEVE SER ASSIM - RECEBENDO O ENUM
     Optional<Role> findByNome(Role.RoleName nome);
 }

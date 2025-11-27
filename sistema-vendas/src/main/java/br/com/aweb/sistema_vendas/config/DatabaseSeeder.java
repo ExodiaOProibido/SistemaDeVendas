@@ -20,7 +20,6 @@ public class DatabaseSeeder {
         return args -> {
             System.out.println("=== INICIANDO DATABASE SEEDER ===");
 
-            // Criar role ADMIN se não existir
             Role adminRole = roleRepo.findByNome(Role.RoleName.ADMIN)
                 .orElseGet(() -> {
                     System.out.println("Criando role ADMIN...");
@@ -29,7 +28,6 @@ public class DatabaseSeeder {
                     return roleRepo.save(role);
                 });
 
-            // Criar role USER se não existir (mas não usar a variável)
             roleRepo.findByNome(Role.RoleName.USER)
                 .orElseGet(() -> {
                     System.out.println("Criando role USER...");
@@ -38,7 +36,6 @@ public class DatabaseSeeder {
                     return roleRepo.save(role);
                 });
 
-            // Criar usuário admin se não existir
             if (userRepo.findByUsername("admin").isEmpty()) {
                 System.out.println("Criando usuário admin...");
                 

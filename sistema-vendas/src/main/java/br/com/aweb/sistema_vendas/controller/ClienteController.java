@@ -25,21 +25,18 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    // Apenas usuários autenticados podem ver a lista
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public ModelAndView list() {
         return new ModelAndView("cliente/list", Map.of("clientes", clienteService.listarTodos()));
     }
 
-    // Tela de cadastro
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/novo")
     public ModelAndView create() {
         return new ModelAndView("cliente/form", Map.of("cliente", new Cliente()));
     }
 
-    // Salvar novo cliente
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/novo")
     public String create(@Valid Cliente cliente, BindingResult result) {
@@ -58,7 +55,6 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
-    // Editar somente ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
@@ -69,7 +65,6 @@ public class ClienteController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Salvar edição somente ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit/{id}")
     public String edit(@Valid Cliente cliente, BindingResult result) {
@@ -88,7 +83,6 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
-    // Tela de confirmação de exclusão apenas ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Long id) {
@@ -99,7 +93,6 @@ public class ClienteController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    // Excluir apenas ADMIN
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public String delete(Cliente cliente) {

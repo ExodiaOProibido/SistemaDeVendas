@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity // ← ADICIONAR ESTA ANOTAÇÃO
+@EnableWebSecurity 
 public class SecurityConfig {
 
     @Bean

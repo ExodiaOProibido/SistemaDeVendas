@@ -24,7 +24,6 @@ public class Role {
     @Column(nullable = false, unique = true, length = 50)
     private RoleName nome;
 
-    // Método conveniente para o Spring Security
     public String getAuthority() {
         return "ROLE_" + nome.name();
     }

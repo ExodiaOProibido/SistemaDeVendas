@@ -12,11 +12,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "usuarios") // Confirmar se esta tabela existe no banco
+@Table(name = "usuarios") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails { // ← IMPLEMENTAR UserDetails
+public class User implements UserDetails { 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,6 @@ public class User implements UserDetails { // ← IMPLEMENTAR UserDetails
     )
     private Set<Role> roles;
 
-    // Métodos do UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()

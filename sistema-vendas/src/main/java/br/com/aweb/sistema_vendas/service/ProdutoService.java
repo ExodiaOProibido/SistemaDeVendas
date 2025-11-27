@@ -16,13 +16,11 @@ public class ProdutoService {
     @Autowired
     ProdutoRepository produtoRepository;
 
-    // CREATE
     @Transactional
     public Produto salvar(Produto produto) {
         return produtoRepository.save(produto);
     }
 
-    // READ
     public List<Produto> listarTodos() {
         return produtoRepository.findAll();
     }
@@ -31,7 +29,6 @@ public class ProdutoService {
         return produtoRepository.findById(id);
     }
 
-    // UPDATE
     @Transactional
     public Produto atualizar(Long id, Produto produtoAtualizado) {
         var optionalProduto = buscarPorId(id);
@@ -50,7 +47,6 @@ public class ProdutoService {
 
     }
 
-    // DELETE
     @Transactional
     public void excluir(Long id) {
         var optionalProduto = buscarPorId(id);
