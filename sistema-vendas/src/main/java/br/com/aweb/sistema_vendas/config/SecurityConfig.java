@@ -18,27 +18,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll() // ← PERMITIR JS TAMBÉM
-                .requestMatchers("/login", "/error").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/login") // ← ADICIONAR ESTA LINHA
-                .defaultSuccessUrl("/produto/list", true) // ← MUDAR PARA PÁGINA EXISTENTE
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout=true")
-                .permitAll()
-            )
-            .csrf(csrf -> csrf.disable()); // ← DESABILITAR CSRF PARA TESTES (OPCIONAL)
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+            .requestMatchers("/login", "/error").permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .defaultSuccessUrl("/produtos", true)
+            .failureUrl("/login?error=true")
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login?logout=true")
+            .permitAll()
+        );
 
-        return http.build();
-    }
+    return http.build();
+}
 }
