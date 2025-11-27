@@ -45,12 +45,12 @@ public class DatabaseSeeder {
                 admin.setRoles(Set.of(adminRole));
                 
                 User savedUser = userRepo.save(admin);
-                System.out.println("✅ Usuário admin criado com sucesso!");
+                System.out.println(" Usuário admin criado com sucesso!");
                 System.out.println("   Username: " + savedUser.getUsername());
                 System.out.println("   Password: admin123 (codificada)");
                 System.out.println("   Roles: " + savedUser.getRoles().size());
             } else {
-                System.out.println("✅ Usuário admin já existe");
+                System.out.println(" Usuário admin já existe");
             }
 
             System.out.println("=== DATABASE SEEDER FINALIZADO ===");
