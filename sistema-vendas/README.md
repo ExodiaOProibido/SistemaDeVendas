@@ -13,7 +13,6 @@ Produtos: http://localhost:8080/produtos
 Clientes: http://localhost:8080/clientes
 
 
-
 Comandos úteis dentro do PostgreSQL:
 Ver todas as tabelas: \dt
 
