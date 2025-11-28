@@ -14,12 +14,6 @@ Clientes: http://localhost:8080/clientes
 
 
 Comandos úteis dentro do PostgreSQL:
-Ver todas as tabelas: \dt
-
 Ver dados dos usuários: SELECT * FROM usuarios;
-
 Ver dados das roles: SELECT * FROM roles;
-
-Resetar senha do admin (senha: 123456): UPDATE usuarios SET password = '$2a$10$N9qo8uLOickgx2ZMRZoMye.vbUO2ZQkQYc9rKqYUVaD7WQ81a6yTe' WHERE username = 'admin';
-
 Sair do PostgreSQL: \q
